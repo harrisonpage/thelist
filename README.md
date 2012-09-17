@@ -44,9 +44,21 @@ By default, output will appear in plaintext. You can generate HTML like so: --fo
 
 One can specify an alternate show/scene page with the --url option.
 
+Sample Output
+=============
+
+    Amon Tobin => http://www.foopee.com/punk/the-list/by-band.0.html#Amon_Tobin
+    Beach House => http://www.foopee.com/punk/the-list/by-band.0.html#Beach_House
+    Dethklok => http://www.foopee.com/punk/the-list/by-band.0.html#Dethklok
+    Flying Lotus => http://www.foopee.com/punk/the-list/by-band.1.html#Flying_Lotus
+    Luna => http://www.foopee.com/punk/the-list/by-band.2.html#Luna
+    Tame Impala => http://www.foopee.com/punk/the-list/by-band.3.html#Tame_Impala
+    Wilco => http://www.foopee.com/punk/the-list/by-band.3.html#Wilco
+
 To Do
 =====
 
+- Extract locations/dates from The List for each band.
 - Test under Windows. 
 - Test alternate show/scene pages.
 - Find AppleScript to automate XML generation.

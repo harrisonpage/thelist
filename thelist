@@ -1,0 +1,148 @@
+#!/opt/local/bin/perl
+#
+# Given an iTunes XML library file, show which bands are playing. 
+# Uses the "WWW version of Steve Koepke's excellent (San Francisco) Bay Area concert guide"
+#
+
+use strict 'vars';
+use warnings;
+use Carp;
+use Data::Dumper;
+use Getopt::Long;
+use WWW::Mechanize;
+use Mac::iTunes::Library;
+use Mac::iTunes::Library::XML;
+
+#
+# Defaults
+#
+my $file = $ENV{'ITUNES_XML'} || "";
+my $format = "text";
+my $url = "http://www.foopee.com/punk/the-list/";
+my $verbose = 0;
+
+#
+# Display results in plain text
+#
+sub render_text ($)
+{
+	my $results = shift;
+	foreach my $text (sort keys %$results)
+	{
+    	printf "%s => %s\n", $text, $results->{$text};
+	}
+}
+
+#
+# Display results in HTML
+#
+sub render_html ($)
+{
+	my $results = shift;
+	foreach my $text (sort keys %$results)
+	{
+    	print <<FIN;
+<a href="$$results{$text}">$text</a> 
+FIN
+	}
+}
+
+sub trace ($)
+{
+	my $msg = shift;
+	if ($verbose)
+	{
+		print "$msg\n";
+	}
+}
+
+#
+# Parse options
+#
+my $result = GetOptions
+(
+	"file=s" => \$file, 
+	"format=s" => \$format, 
+	"url=s" => \$url, 
+	"verbose" => \$verbose,
+);
+
+#
+# Specified format to function name
+#
+my %dispatcher =
+(
+	"text" => "render_text",
+	"html" => "render_html",
+);
+
+#
+# File not found: Show usage
+#
+if (! $file || ! exists ($dispatcher{$format}))
+{
+	print <<FIN;
+Usage: $0 [ options]
+
+Options:
+
+  --file=Library.xml      required
+  --format={text,html}    default: text
+  --url=http://...        default: $url
+  --verbose               optional
+
+FIN
+
+	exit (0);
+}
+
+#
+# Parse iTunes Library.xml 
+#
+trace ("Parsing file: $file");
+my $library = Mac::iTunes::Library->new();
+$library = Mac::iTunes::Library::XML->parse ($file);
+
+#
+# Get list of artists
+#
+my %_bands = $library->artist();
+trace ("Bands loaded: " . (scalar keys %_bands));
+
+#
+# Convert all band names to lowercase
+#
+my %bands = map { lc ($_) => 1 } keys %_bands;
+
+#
+# Fetch concert listings
+#
+my $mech = WWW::Mechanize->new();
+trace ("Loading The List: $url");
+$mech->get ($url);
+
+#
+# Get all links from page
+#
+my @links = $mech->links();
+
+#
+# Iterate over links looking for matches
+#
+my %results;
+
+for my $link ( @links ) 
+{
+	if (exists $bands{lc($link->text)})
+	{
+		$results{$link->text} = $url . $link->url;
+	}
+}
+
+trace ("Matches: " . (scalar keys %results));
+
+# 
+# All done - display results to STDOUT
+#
+&{$dispatcher{$format}} (\%results);
+

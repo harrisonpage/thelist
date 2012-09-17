@@ -1,7 +1,7 @@
 thelist
 =======
 
-Show upcoming San Francisco bay area Concerts via iTunes export and The List.
+Show upcoming San Francisco Bay Area concerts via iTunes export and The List.
 
 Ingredients
 ===========
@@ -16,12 +16,17 @@ Prerequisites
 - WWW::Mechanize
 - Mac::iTunes::Library
 
+Generating iTunes XML File
+==========================
+
+As of iTunes 10, select Export library... from the File menu and save the XML file somewhere.
+
 Best Practice Installing Required Perl Modules
 ==============================================
 
 Use the cpan tool like so: 
 
-    sudo cpan install WWW::Mechanize
+    sudo cpan install WWW::Mechanize Mac::iTunes::Library
 
 Example
 =======
@@ -43,7 +48,8 @@ To Do
 =====
 
 - Test under Windows. 
-- Test alternate show/scene pages
+- Test alternate show/scene pages.
+- Find AppleScript to automate XML generation.
 
 References
 ==========

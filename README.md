@@ -42,20 +42,20 @@ One can specify an alternate show/scene page with the --url option.
 To Do
 =====
 
-Test under Windows. 
-Test alternate show/scene pages
+- Test under Windows. 
+- Test alternate show/scene pages
 
 References
 ==========
 
-http://www.calweb.com/~skoepke/
-http://www.foopee.com/punk/the-list/
-http://search.cpan.org/dist/WWW-Mechanize/
-http://search.cpan.org/~dinomite/Mac-iTunes-Library-1.0/
+- http://www.calweb.com/~skoepke/
+- http://www.foopee.com/punk/the-list/
+- http://search.cpan.org/dist/WWW-Mechanize/
+- http://search.cpan.org/~dinomite/Mac-iTunes-Library-1.0/
 
 Author
 ======
 
-Harrison Page <harrisonpage@gmail.com>
-https://github.com/harrisonpage/thelist
-17-Sep-2012
+- Harrison Page <harrisonpage@gmail.com>
+- https://github.com/harrisonpage/thelist
+- 17-Sep-2012

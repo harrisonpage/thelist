@@ -3,6 +3,9 @@
 # Given an iTunes XML library file, show which bands are playing. 
 # Uses the "WWW version of Steve Koepke's excellent (San Francisco) Bay Area concert guide"
 #
+# https://github.com/harrisonpage/thelist
+# Harrison Page <harrisonpage@gmail.com> http://hanford.org/harrison/
+#
 
 use strict 'vars';
 use warnings;
@@ -26,11 +29,11 @@ my $verbose = 0;
 #
 sub render_text ($)
 {
-	my $results = shift;
-	foreach my $text (sort keys %$results)
-	{
-    	printf "%s => %s\n", $text, $results->{$text};
-	}
+    my $results = shift;
+    foreach my $text (sort keys %$results)
+    {
+        printf "%s => %s\n", $text, $results->{$text};
+    }
 }
 
 #
@@ -38,22 +41,22 @@ sub render_text ($)
 #
 sub render_html ($)
 {
-	my $results = shift;
-	foreach my $text (sort keys %$results)
-	{
-    	print <<FIN;
+    my $results = shift;
+    foreach my $text (sort keys %$results)
+    {
+        print <<FIN;
 <a href="$$results{$text}">$text</a> 
 FIN
-	}
+    }
 }
 
 sub trace ($)
 {
-	my $msg = shift;
-	if ($verbose)
-	{
-		print "$msg\n";
-	}
+    my $msg = shift;
+    if ($verbose)
+    {
+        print "$msg\n";
+    }
 }
 
 #
@@ -61,10 +64,10 @@ sub trace ($)
 #
 my $result = GetOptions
 (
-	"file=s" => \$file, 
-	"format=s" => \$format, 
-	"url=s" => \$url, 
-	"verbose" => \$verbose,
+    "file=s" => \$file, 
+    "format=s" => \$format, 
+    "url=s" => \$url, 
+    "verbose" => \$verbose,
 );
 
 #
@@ -72,8 +75,8 @@ my $result = GetOptions
 #
 my %dispatcher =
 (
-	"text" => "render_text",
-	"html" => "render_html",
+    "text" => "render_text",
+    "html" => "render_html",
 );
 
 #
@@ -81,7 +84,7 @@ my %dispatcher =
 #
 if (! $file || ! exists ($dispatcher{$format}))
 {
-	print <<FIN;
+    print <<FIN;
 Usage: $0 [ options]
 
 Options:
@@ -93,7 +96,7 @@ Options:
 
 FIN
 
-	exit (0);
+    exit (0);
 }
 
 #
@@ -133,10 +136,10 @@ my %results;
 
 for my $link ( @links ) 
 {
-	if (exists $bands{lc($link->text)})
-	{
-		$results{$link->text} = $url . $link->url;
-	}
+    if (exists $bands{lc($link->text)})
+    {
+        $results{$link->text} = $url . $link->url;
+    }
 }
 
 trace ("Matches: " . (scalar keys %results));
